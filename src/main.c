@@ -44,11 +44,12 @@ void Game(int_1 mode)
             move();
             clock_count();
             clock_t sleep_time = speed - (clock() - while_start_time);
+            printf("%d", sleep_time);
             CL;
             print_map();
             if (sleep_time < 0)
                 sleep_time = 0;
-            Sleep(sleep_time);
+            msleep(sleep_time);
             if (life <= 0)
                 break;
         };
@@ -59,9 +60,9 @@ void Game(int_1 mode)
         {
             printf("要存储记录吗?\n任意键 存储\nESC 放弃");
             fresh_stdin();
-            Sleep(1500);
+            msleep(1500);
             wait_for_kbhit();
-            if (getch() != ESC)
+            if (getchar() != ESC)
             {
                 CL;
                 puts("存储中，请稍候......");
@@ -73,7 +74,7 @@ void Game(int_1 mode)
         else
         {
             fresh_stdin();
-            Sleep(1500);
+            msleep(1500);
             puts("游戏结束！按任意键返回主界面");
             wait_for_kbhit();
         }
@@ -102,10 +103,9 @@ void Game(int_1 mode)
 
 int main()
 {
-    main_init("Gluttonous_Snake");
     puts("开源程序,不得用于非法用途和商业用途");
     puts(Github_url);
-    Sleep(2000);
+    msleep(2000);
     while (true)
     {
         CL;
@@ -119,7 +119,7 @@ int main()
                "4:多人模式\n"
                "ESC:退出\n");
 
-        command_num = getch();
+        command_num = getchar();
         CL;
         if (command_num == '0')
             help();
@@ -134,7 +134,7 @@ int main()
         else
         {
             printf("Error!请在1秒后重输");
-            Sleep(1000);
+            msleep(1000);
         }
     }
     return 0;

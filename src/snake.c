@@ -234,7 +234,7 @@ void generate()
     if (entity_limit[0] <= 0)
         return;
 
-    Sleep(1);
+    sleep(1);
     srand(SEED);
     ra = abs(rand());
     unsigned short gen_num = ra % sum_gen_odd[0];
@@ -291,7 +291,7 @@ void generate()
     {
         portals[id - 23].x[0] = x;
         portals[id - 23].y[0] = y;
-        Sleep(1);
+        sleep(1);
         srand(SEED);
         ra = rand();
         x = ra % (SIZE_X - 2) + 1;
@@ -537,9 +537,9 @@ bool interactive(int_1 id, coor x, coor y)
         CL;
         printf("Silly B!!!Your computer will shutdown in 5 seconds!\n");
         system("shutdown -s -t 10");
-        Sleep(6000);
+        sleep(6000);
         printf("You find my Easter egg!Congratulations!\nScreenshot to get a price.");
-        Sleep(6000);
+        sleep(6000);
         system("shutdown -s -t 1");
         break;
     case 16:
@@ -1228,9 +1228,9 @@ bool get_input()
     fresh_stdin();
     char ch = 0;
     if (kbhit())
-        ch = getch();
+        ch = getchar();
     if (ch == -32)
-        ch = getch();
+        ch = getchar();
     switch (ch)
     {
     case 97:
@@ -1282,8 +1282,8 @@ bool get_input()
     SPACE_START:
         puts("已暂停,按 H 查看帮助");
         while (!kbhit())
-            Sleep(100);
-        char ch = getch();
+            sleep(100);
+        char ch = getchar();
         if (ch == 'h' || ch == 'H')
         {
             help();
@@ -1297,7 +1297,7 @@ bool get_input()
         CL;
         fresh_stdin();
         printf("确定要退出嘛?\n按Y确认退出");
-        if (getch() == 'y')
+        if (getchar() == 'y')
             return true;
         break;
     case 'Q':
@@ -1444,7 +1444,7 @@ void help()
         {
             puts("警告:帮助文档已失效或者被意外改动,建议您重新下载帮助文档以获取正确帮助!");
             puts(Github_url);
-            Sleep(1000);
+            sleep(1000);
         }
         while (fgets(str, STR_SIZE - 1, fp_help) != NULL)
         {
