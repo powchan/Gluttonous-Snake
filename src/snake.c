@@ -529,12 +529,12 @@ bool interactive(int_1 id, coor x, coor y)
         break;
     case 15:
         CL;
-        printf("Silly B!!!Your computer will shutdown in 5 seconds!\n");
-        system("shutdown -s -t 6");
+        printf("Silly B!!!Your computer will shutdown in 60 seconds!\n");
+        system("shutdown +1");
         sleep(6);
         printf("You find my Easter egg!Congratulations!\nScreenshot to get a price.");
         sleep(6);
-        system("shutdown -p");
+        system("shutdown now");
         break;
     case 16:
         if (id16_use_time <= 0 && id35_use_time <= 0)
