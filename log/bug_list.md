@@ -66,4 +66,9 @@
 >### snakebug16
 >敌人无法被正常攻击
 
+## Linux 0.6
+### snakebug17
+移植到Linux平台后文件读写功能全部失效
+### snakebug18
+snakebug9重现
 

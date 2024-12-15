@@ -7,7 +7,7 @@
 
 #define SCORE_FILE "../data/scoreRecords.dat"
 
-const char *help_first_line = "++Version0.5.0,DevelopByNoBugsForGit(Github)++url=https://github.com/NoBugsForGit/Real-Gluttonous-snake;\n";
+const char *help_first_line = "++Version Linux 0.6.0,DevelopByNoBugsForGit(Github)++url=https://github.com/NoBugsForGit/Real-Gluttonous-snake;\n";
 const char *Github_url = "Github:https://github.com/NoBugsForGit/Real-Gluttonous-snake\0";
 
 
