@@ -44,7 +44,6 @@ void Game(int_1 mode)
             move();
             clock_count();
             clock_t sleep_time = speed - (clock() - while_start_time);
-            printf("%d", sleep_time);
             CL;
             print_map();
             if (sleep_time < 0)

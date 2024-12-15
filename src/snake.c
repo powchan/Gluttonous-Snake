@@ -1,10 +1,6 @@
 #include "../inc/snake.h"
 // 生成模块没有设置特殊实体的消失时间
 
-
-
-
-
 void print_map()
 {
 
@@ -234,8 +230,7 @@ void generate()
     if (entity_limit[0] <= 0)
         return;
 
-    sleep(1);
-    srand(SEED);
+    srand(SEED + 1000);
     ra = abs(rand());
     unsigned short gen_num = ra % sum_gen_odd[0];
     unsigned short id = 0;
@@ -291,8 +286,7 @@ void generate()
     {
         portals[id - 23].x[0] = x;
         portals[id - 23].y[0] = y;
-        sleep(1);
-        srand(SEED);
+        srand(SEED + 1000);
         ra = rand();
         x = ra % (SIZE_X - 2) + 1;
         y = ra % (SIZE_Y - 2) + 1;
@@ -327,7 +321,7 @@ void generate()
     }
 }
 
-int search_body(coor  x, coor y)
+int search_body(coor x, coor y)
 {
     for (int i = 0; i < SIZE_X * SIZE_Y; i++)
     {
@@ -536,11 +530,11 @@ bool interactive(int_1 id, coor x, coor y)
     case 15:
         CL;
         printf("Silly B!!!Your computer will shutdown in 5 seconds!\n");
-        system("shutdown -s -t 10");
-        sleep(6000);
+        system("shutdown -s -t 6");
+        sleep(6);
         printf("You find my Easter egg!Congratulations!\nScreenshot to get a price.");
-        sleep(6000);
-        system("shutdown -s -t 1");
+        sleep(6);
+        system("shutdown -p");
         break;
     case 16:
         if (id16_use_time <= 0 && id35_use_time <= 0)
@@ -902,11 +896,11 @@ void attack(int range)
 
 void attack_surrounded()
 {
-    memset(check_map, 8, SIZE_X*SIZE_Y);
+    memset(check_map, 8, SIZE_X * SIZE_Y);
     for (int i = 0; i < snake_length; i++)
     {
-        int x =snake[i].x;
-        int y =snake[i].y;
+        int x = snake[i].x;
+        int y = snake[i].y;
         check_map[x - 1][y - 1]--;
         check_map[x][y - 1]--;
         check_map[x + 1][y - 1]--;
@@ -935,7 +929,6 @@ void attack_surrounded()
                 }
             }
         }
-        
     }
 }
 
@@ -1167,7 +1160,7 @@ void start_game(int_1 mode)
         fresh_stdin();
         strcmp(name, "");
         printf("输入你的名字:");
-        scanf("%[^\n]198s", name);
+        scanf("%198s", name);
         CL;
         fresh_stdin();
         printf("你好,%s!\n选择你的速度等级(1~6级)或输入速度值(clock/s):", name);
@@ -1229,76 +1222,62 @@ bool get_input()
     char ch = 0;
     if (kbhit())
         ch = getchar();
-    if (ch == -32)
-        ch = getchar();
+    if (ch == '\033')
+    { // ESC 键触发转义序列
+        if (kbhit())
+        {
+            getchar();      // 跳过 '['
+            ch = getchar(); // 获取方向键}
+        }
+    }
+
     switch (ch)
     {
-    case 97:
-    case 52:
-    case 75:
-        if (snake_length != 1)
-            if (direction != RIGHT)
-                direction = LEFT;
-            else
-                ;
-        else
+    case 'a':
+    case '4': // 数字键盘
+    case 'D': // 左箭头
+        if ((snake_length != 1 && direction != RIGHT) || snake_length == 1)
             direction = LEFT;
         break;
-    case 100:
-    case 56:
-    case 77:
-        if (snake_length != 1)
-            if (direction != LEFT)
-                direction = RIGHT;
-            else
-                ;
-        else
+    case 'd':
+    case '6':
+    case 'C': // 右箭头
+        if ((snake_length != 1 && direction != LEFT) || snake_length == 1)
             direction = RIGHT;
         break;
-    case 119:
-    case 50:
-    case 72:
-        if (snake_length != 1)
-            if (direction != DOWN)
-                direction = UP;
-            else
-                ;
-        else
+    case 'w':
+    case '8':
+    case 'A': // 上箭头
+        if ((snake_length != 1 && direction != DOWN) || snake_length == 1)
             direction = UP;
         break;
-    case 115:
-    case 54:
-    case 80:
-        if (snake_length != 1)
-            if (direction != UP)
-                direction = DOWN;
-            else
-                ;
-        else
+    case 's':
+    case '2':
+    case 'B': // 下箭头
+        if ((snake_length != 1 && direction != UP) || snake_length == 1)
             direction = DOWN;
         break;
-    case '[':
-    case SPACE:
+    case ' ':
     SPACE_START:
-        puts("已暂停,按 H 查看帮助");
+        printf("已暂停, 按 H 查看帮助\n");
         while (!kbhit())
-            sleep(100);
-        char ch = getchar();
+            msleep(100);
+        ch = getchar();
         if (ch == 'h' || ch == 'H')
         {
             help();
-            CL;
+            printf("清屏...\n");
             print_map();
             goto SPACE_START;
         }
         break;
-    case ']':
-    case ESC:
-        CL;
+    case '\033': // ESC 键
+        printf("确定要退出嘛?\n按 Y 确认退出\n");
         fresh_stdin();
-        printf("确定要退出嘛?\n按Y确认退出");
-        if (getchar() == 'y')
+        if (getchar() == 'y' || getchar() == 'Y')
+        {
             return true;
+        }
         break;
     case 'Q':
     case 'q':
@@ -1444,7 +1423,7 @@ void help()
         {
             puts("警告:帮助文档已失效或者被意外改动,建议您重新下载帮助文档以获取正确帮助!");
             puts(Github_url);
-            sleep(1000);
+            sleep(1);
         }
         while (fgets(str, STR_SIZE - 1, fp_help) != NULL)
         {
